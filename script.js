@@ -1,11 +1,14 @@
+// Crear el cliente al cargar la página
+const client = new WebTorrent();
+
 function startStream() {
   const uri = document.getElementById('torrentInput').value.trim();
   const status = document.getElementById('status');
   const player = document.getElementById('player');
 
-  if (!uri) return alert('Introduce un magnet link o URL .torrent');
+  if (!uri) return alert('Introduce un magnet link.');
 
-  // Añadimos trackers por si el magnet no los trae
+  // Magnet con trackers WSS (para navegador)
   const fixedMagnet = uri.includes('tr=')
     ? uri
     : uri + '&tr=wss://tracker.openwebtorrent.com&tr=wss://tracker.btorrent.xyz';
@@ -13,12 +16,11 @@ function startStream() {
   console.log('Conectando a:', fixedMagnet);
 
   client.add(fixedMagnet, torrent => {
-    status.textContent = `Encontrado: ${torrent.name}`;
+    status.textContent = `Conectado: ${torrent.name}`;
     const file = torrent.files.find(f => /\.(mp4|webm|mkv|ogg)$/i.test(f.name));
-    if (!file) return alert('No hay archivo de video.');
+    if (!file) return alert('No se encontró archivo de video.');
     file.renderTo(player, { autoplay: true });
   });
 
-  // Muestra errores
-  client.on('error', err => alert('WebTorrent error: ' + err.message));
+  client.on('error', err => alert('Error: ' + err.message));
 }

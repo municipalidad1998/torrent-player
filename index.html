@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Torrent Stream Player</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- WebTorrent desde CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"></script>
+</head>
+<body>
+  <h1>Reproductor de torrents online</h1>
+
+  <label>Pega un magnet link o .torrent url:
+    <input id="torrentInput" type="text"
+           placeholder="magnet:?xt=urn:btih:...">
+  </label>
+  <button onclick="startStream()">Reproducir</button>
+
+  <div id="status">Esperando torrent…</div>
+  <video id="player" controls></video>
+
+  <script src="script.js"></script>
+</body>
+</html>
